@@ -131,6 +131,14 @@
 
 
 
+(defun go-package-name ()
+  "Retrieve the package name from the current Go file."
+  (save-excursion
+    (goto-char (point-min))
+    (if (re-search-forward "^package\\s-+\\([a-zA-Z0-9_]+\\)" nil t)
+        (match-string 1)
+      (user-error "Cannot find package declaration in the current file"))))
+
 
 
 
