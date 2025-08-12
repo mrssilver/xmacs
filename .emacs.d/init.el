@@ -426,3 +426,32 @@
   '(define-key go-mode-map (kbd "C-c b") 'go-generate-benchmark-internal))
 
 
+(defun eval-in-buffer-without-switch (buffer)
+  "在指定BUFFER中求值选中区域（无选中时求值当前行），不切换窗口"
+  (interactive "bTarget buffer: ")
+  (let* ((target-buffer (get-buffer buffer))
+         (current-point (point))  ; 保存原始光标位置
+         result)
+    (unless target-buffer
+      (user-error "Buffer '%s' does not exist" buffer))
+    
+    (with-current-buffer target-buffer
+      ;; 保存目标缓冲区状态
+      (let ((orig-point (point))
+            (eval-result))
+        ;; 执行求值操作
+        (if (use-region-p)
+            (setq eval-result (eval-region (region-beginning) (region-end)))
+          ;; 无选中时求值当前行
+          (save-excursion
+            (beginning-of-line)
+            (set-mark (point))
+            (end-of-line)
+            (setq eval-result (eval-region (region-beginning) (region-end)))
+            (deactivate-mark)))
+        
+        ;; 恢复目标缓冲区光标位置
+        (goto-char orig-point)
+        eval-result))))
+
+
