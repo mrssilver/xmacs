@@ -140,7 +140,7 @@
   (unless (eq major-mode 'go-mode)
     (user-error "Not in Go mode"))
   
-  (let* ((pkg-name (go-package-name))
+  (let* (
          (file-name (file-name-nondirectory (buffer-file-name)))
          (bench-file-name (replace-regexp-in-string "\\.go$" "_benchmark_test.go" file-name))
          (bench-buffer (get-buffer-create bench-file-name))
@@ -250,7 +250,7 @@
   (unless (eq major-mode 'go-mode)
     (user-error "Not in Go mode"))
   
-  (let* ((pkg-name (go-package-name))
+  (let* (
          (file-name (file-name-nondirectory (buffer-file-name)))
          (test-file-name (replace-regexp-in-string "\\.go$" "_test.go" file-name))
          (test-buffer (get-buffer-create test-file-name))
