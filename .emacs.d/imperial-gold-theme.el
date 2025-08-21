@@ -8,19 +8,19 @@
     (ivory-milk    . "#fffaf0")    ; 普通字符乳白
     (cream-highlight . "#fffee6")  ; 高亮乳白
     (gold-light    . "#ffed8a")    ; 辅助金色
-    (crimson-shadow . "#3c1d22")   ; 血色阴影
+    (crimson-shadow . "#fc7f22")   ; 血色阴影
     (regal-purple  . "#5d3a9b")    ; 装饰紫色
     (inactive-bg   . "#1f1b24")    ; 非激活模式行背景
-    (inactive-fg   . "#a89159")))  ; 非激活模式行前景
+    (inactive-fg   . "#a81159")))  ; 非激活模式行前景
 
 (custom-theme-set-faces
  'imperial-gold
  ;; == 核心规则 ==
  `(default ((t :background ,(cdr (assoc 'midnight-bg imperial-gold/colors))
-            :foreground ,(cdr (assoc 'ivory-milk imperial-gold/colors)))))
+            :foreground ,(cdr (assoc 'imperial-gold imperial-gold/colors)))))
   
  ;; == 语法高亮 ==
- ;; 所有普通字符乳白（包括关键字、符号、字符串等）
+ ;; 所有普通字符（包括关键字、符号、字符串等）
  (dolist (face '(font-lock-keyword-face
                 font-lock-builtin-face
                 font-lock-constant-face
@@ -28,14 +28,14 @@
                 font-lock-doc-face
                 font-lock-string-face
                 font-lock-warning-face))
-   (set-face-attribute face nil :foreground (cdr (assoc 'ivory-milk imperial-gold/colors))))
+   (set-face-attribute face nil :foreground (cdr (assoc 'imperial-gold imperial-gold/colors))))
 
  ;; 函数/变量定义处 - 血色
  `(font-lock-function-name-face ((t :foreground ,(cdr (assoc 'royal-blood imperial-gold/colors)) :bold t)))
  `(font-lock-variable-name-face ((t :foreground ,(cdr (assoc 'royal-blood imperial-gold/colors)))))
 
- ;; 注释 - 金色
- `(font-lock-comment-face ((t :foreground ,(cdr (assoc 'imperial-gold imperial-gold/colors)) :italic t)))
+ ;; 注释
+ `(font-lock-comment-face ((t :foreground ,(cdr (assoc 'ivory-milk imperial-gold/colors)) :italic t)))
 
  ;; == UI元素 ==
  `(mode-line ((t :background ,(cdr (assoc 'crimson-shadow imperial-gold/colors))
@@ -51,28 +51,11 @@
  `(mode-line-buffer-id ((t :weight ultra-bold :foreground ,(cdr (assoc 'cream-highlight imperial-gold/colors)))))
 
  ;; == Go mode specific faces ==
- `(go-directive-face ((t :foreground ,(cdr (assoc 'ivory-milk imperial-gold/colors)))))
- `(go-err-face ((t :foreground ,(cdr (assoc 'ivory-milk imperial-gold/colors)))))
- `(go-label-face ((t :foreground ,(cdr (assoc 'ivory-milk imperial-gold/colors)))))
- `(go-type-name-face ((t :foreground ,(cdr (assoc 'ivory-milk imperial-gold/colors)))))
+ `(go-directive-face ((t :foreground ,(cdr (assoc 'imperial-gold imperial-gold/colors)))))
+ `(go-err-face ((t :foreground ,(cdr (assoc 'imperial-gold imperial-gold/colors)))))
+ `(go-label-face ((t :foreground ,(cdr (assoc 'imperial-gold imperial-gold/colors)))))
+ `(go-type-name-face ((t :foreground ,(cdr (assoc 'imperial-gold imperial-gold/colors)))))
  )
-
-;; == 动态👆指示器系统 ==
-(setq-default mode-line-format
-              (list
-               '(:eval (if (eq (current-buffer) (window-buffer (selected-window)))
-                          (propertize "👆懂不懂啊  " 
-                                      'face `(:background ,(cdr (assoc 'royal-blood imperial-gold/colors))
-                                              :foreground ,(cdr (assoc 'cream-highlight imperial_gold/colors))))
-                        (propertize "👉" 
-                                    'face `(:background ,(cdr (assoc 'inactive-bg imperial_gold/colors))
-                                            :foreground ,(cdr (assoc 'inactive-fg imperial_gold/colors))))))
-               " %b "  ; 缓冲区名
-               "| "
-               mode-line-position
-               " "
-               mode-line-modes
-               mode-line-misc-info))
 
 ;; == GO语言专属配置 ==
 (defun imperial-gold/go-mode-hook ()

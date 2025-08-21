@@ -5,16 +5,16 @@
 (add-to-list 'package-archives
             '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'load-path "~/.emacs.d/lisp/")
-(require 'rainbow-mode)
-(require 'imperial-layout)
 
-
-
+(message "-1")
+;;(require 'imperial-layout)
+(message "1")
 
 (load-theme 'imperial-gold t)
 (set-frame-position (selected-frame) 0 0)
 (set-frame-width (selected-frame) 190)
 (set-frame-height (selected-frame) 59)
+(message "2")
 (custom-set-variables
  '(package-selected-packages
    '(preview-auto gotest-ts colorful-mode lsp-ui org-pdftools go-autocomplete org-translate dot-mode org-evil go-gen-test company-go go-gopath go-complete org-ai rainbow-blocks graphviz-dot-mode go-imports general minimap org-journal async isearch-mb spell-fu ## evil ess slime commenter go-dlv gotest magithub go-eldoc go-guru go-errcheck ffmpeg-player esup use-package org-remark rainbow-mode auto-correct auto-dim-other-buffers python erc rainbow-delimiters popon multiple-cursors minibuffer-header minibuffer-line minibar company-statistics perl-doc ztree pdf-tools org emacsql gited diminish diff-hl magit git-modes go-mode markdown-mode memory-usage)))
@@ -23,17 +23,20 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(rainbow-delimiters-base-error-face ((t (:inherit rainbow-delimiters-base-face :foreground "light green"))))
- '(rainbow-delimiters-base-face ((t (:inherit nil))))
- '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "NavajoWhite3"))))
- '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "olive drab"))))
- '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "firebrick"))))
- '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "yellow1"))))
- '(rainbow-delimiters-depth-5-face ((t (:inherit rainbow-delimiters-base-face :foreground "red4"))))
- '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "ivory1"))))
- '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
- '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "wheat2"))))
- '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "gold1")))))
+;; '(rainbow-delimiters-base-error-face ((t (:inherit rainbow-delimiters-base-face :foreground "light green"))))
+;; '(rainbow-delimiters-base-face ((t (:inherit nil))))
+;; '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "NavajoWhite3"))))
+;; '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "olive drab"))))
+;; '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "firebrick"))))
+;; '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "yellow1"))))
+;; '(rainbow-delimiters-depth-5-face ((t (:inherit rainbow-delimiters-base-face :foreground "red4"))))
+;; '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "ivory1"))))
+;; '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
+;; '(rainbow-delimiters-depth-8-face ((t (:inherit rainbow-delimiters-base-face :foreground "wheat2"))))
+;; '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "gold1"))
+;))
+ )
+(message "3")
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;;关闭默认界面
 (setq inhibit-startup-message t)
@@ -74,43 +77,14 @@
 
 
 
+(setq search-highlight t)
+(setq lazy-highlight-cleanup nil)
 
 
 
-
-
-
-(defun make-node (value left right)
- "Create a binary tree node."
- (list :value value :left left :right right))
-(defun print-tree (node indent)
- "Print a binary tree in a readable format."
- (when node
-   (print-tree (plist-get node :right) (+ indent 2))
-   (insert (make-string indent ?\ ))
-   (insert (format "%s\n" (plist-get node :value)))
-   (print-tree (plist-get node :left) (+ indent 2))))
-;; 创建一个简单的二叉树
-;;(setq root (make-node 5
-;;                      (make-node 3 (make-node 1 nil nil) (make-node 4 nil nil))
-;;                      (make-node 8 nil (make-node 9 nil nil))))
-;; 打印二叉树
-;;(with-output-to-temp-buffer "*Binary Tree*"
-;;  (print-tree root 0))
-(defun insert-newline-every-m-chars (m n)
- "Insert a newline every M characters in the current buffer."
- (interactive "nStart line: \nsEnd line: ")
- (let ((start (point-min))
-       (end (point-max)))
-   (save-excursion
-     (goto-char start)
-     (while (< (point) end)
-       (forward-char m)
-       (insert n )))))
-;;        (insert "\n")))))
-
-
-
+;;EOF时
+(setq search-highlight t)
+(setq lazy-highlight-cleanup nil)
 
 
 
@@ -125,7 +99,6 @@
 ;; 调整 lsp-log-level 为 warn 减少日志输出：
 ;;(global-lsp-mode 1)
 
-(imperial-setup-layout)
 
 
 
@@ -420,38 +393,40 @@
           (gofmt)
           (message "🎉 Success! Generated %d new benchmark functions" new-count))
       (message "🌟 Nothing new to generate. All benchmarks are up to date!"))))
-
 ;; 添加快捷键绑定
 (eval-after-load 'go-mode
   '(define-key go-mode-map (kbd "C-c b") 'go-generate-benchmark-internal))
 
 
-(defun eval-in-buffer-without-switch (buffer)
-  "在指定BUFFER中求值选中区域（无选中时求值当前行），不切换窗口"
-  (interactive "bTarget buffer: ")
-  (let* ((target-buffer (get-buffer buffer))
-         (current-point (point))  ; 保存原始光标位置
-         result)
-    (unless target-buffer
-      (user-error "Buffer '%s' does not exist" buffer))
-    
-    (with-current-buffer target-buffer
-      ;; 保存目标缓冲区状态
-      (let ((orig-point (point))
-            (eval-result))
-        ;; 执行求值操作
-        (if (use-region-p)
-            (setq eval-result (eval-region (region-beginning) (region-end)))
-          ;; 无选中时求值当前行
-          (save-excursion
-            (beginning-of-line)
-            (set-mark (point))
-            (end-of-line)
-            (setq eval-result (eval-region (region-beginning) (region-end)))
-            (deactivate-mark)))
-        
-        ;; 恢复目标缓冲区光标位置
-        (goto-char orig-point)
-        eval-result))))
 
 
+
+
+(defun eval-commented-line ()
+  "从当前行提取并求值被 // 包裹的 Lisp 表达式。
+示例：// (+ 1 2) // 将被提取并求值为3。"
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (let* ((line (buffer-substring-no-properties (point) (line-end-position)))
+           (start (string-match "//\\s-*\\(.+?\\)\\s-*//" line))
+           expr result)
+      (when start
+        (setq expr (match-string 1 line))
+        (condition-case err
+            (progn
+              (setq result (eval (read expr)))
+              (message "求值结果: %S" result))
+          (error (message "求值错误: %s" (error-message-string err))))))))
+
+
+
+
+
+
+(defvar split-window-indicator-format
+  '("%s " (:eval (mode-line-buffer-name)) " %p "
+    (:eval (if split-window-enabled
+               (propertize "◉" 'face '(:foreground "green"))
+             (propertize "◉" 'face '(:foreground "red")))))
+  "mode-line格式模板")
